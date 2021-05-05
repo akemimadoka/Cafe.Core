@@ -1,4 +1,8 @@
-set(CAFE_CORE_INCLUDE_TEST ON CACHE BOOL "Include core test")
+cmake_minimum_required(VERSION 3.15)
+
+project(Cafe.Core CXX)
+
+include(${CMAKE_CURRENT_SOURCE_DIR}/CafeCommon/cmake/CafeCommon.cmake)
 
 add_library(Cafe.Core INTERFACE)
 
@@ -18,6 +22,6 @@ install(DIRECTORY src/
 install(EXPORT Core
     DESTINATION cmake/Core)
 
-if(CAFE_INCLUDE_TESTS AND CAFE_CORE_INCLUDE_TEST)
+if(CAFE_INCLUDE_TESTS)
     add_subdirectory(Test)
 endif()
