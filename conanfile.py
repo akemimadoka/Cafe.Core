@@ -6,8 +6,8 @@ Options = [
 ]
 
 
-class CafeConan(ConanFile):
-    name = "Cafe"
+class CafeCoreConan(ConanFile):
+    name = "Cafe.Core"
     version = "0.1"
     license = "MIT"
     author = "akemimadoka <chino@hotococoa.moe>"
@@ -20,7 +20,7 @@ class CafeConan(ConanFile):
 
     generators = "cmake"
 
-    exports_sources = "CMakeLists.txt", "src", "Test"
+    exports_sources = "CMakeLists.txt", "CafeCommon*", "src*", "Test*"
 
     def requirements(self):
         if self.options.CAFE_INCLUDE_TESTS:
@@ -32,11 +32,6 @@ class CafeConan(ConanFile):
             cmake.definitions[opt[0]] = getattr(self.options, opt[0])
         cmake.configure()
         return cmake
-
-    def build(self):
-        with tools.vcvars(self.settings, filter_known_paths=False) if self.settings.compiler == 'Visual Studio' else tools.no_op():
-            cmake = self.configure_cmake()
-            cmake.build()
 
     def package(self):
         with tools.vcvars(self.settings, filter_known_paths=False) if self.settings.compiler == 'Visual Studio' else tools.no_op():
