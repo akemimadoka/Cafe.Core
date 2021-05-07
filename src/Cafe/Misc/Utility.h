@@ -48,16 +48,31 @@ namespace Cafe::Core::Misc
 		    std::make_index_sequence<std::tuple_size_v<std::remove_reference_t<Tuple>>>{});
 	}
 
-	template <typename Tuple, typename Callable>
-	constexpr void RuntimeGet(std::size_t index, Tuple&& tuple, Callable&& callable)
+	namespace Detail
 	{
-		ForEach(std::forward<Tuple>(tuple), [&, i = std::size_t{}](auto&& item) mutable {
-			if (i == index)
+		template <typename Tuple, typename Callable, std::size_t... I>
+		constexpr bool RuntimeGetImpl(std::size_t index, Tuple&& tuple, Callable&& callable,
+		                              std::index_sequence<I...>)
+		{
+			constexpr auto size = std::tuple_size_v<std::remove_cvref_t<Tuple>>;
+			if (index >= size)
 			{
-				std::forward<Callable>(callable)(static_cast<decltype(item)&&>(item));
+				return false;
 			}
-			++i;
-		});
+			constexpr auto visitors = std::array{ +[](Tuple&& tuple_, Callable&& callable_) {
+				std::forward<Callable>(callable_)(std::get<I>(std::forward<Tuple>(tuple_)));
+			}... };
+			visitors[index](std::forward<Tuple>(tuple), std::forward<Callable>(callable));
+			return true;
+		}
+	} // namespace Detail
+
+	template <typename Tuple, typename Callable>
+	constexpr bool RuntimeGet(std::size_t index, Tuple&& tuple, Callable&& callable)
+	{
+		return Detail::RuntimeGetImpl(
+		    index, std::forward<Tuple>(tuple), std::forward<Callable>(callable),
+		    std::make_index_sequence<std::tuple_size_v<std::remove_cvref_t<Tuple>>>{});
 	}
 
 	template <typename T, typename... Args>

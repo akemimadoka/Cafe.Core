@@ -2,7 +2,9 @@ set(SOURCE_FILES
     BitField.Test.cpp
     Functions.Test.cpp
     Main.cpp
-    TypeTraits.Test.cpp)
+    TypeTraits.Test.cpp
+    Utility.Test.cpp
+)
 
 add_executable(Cafe.Core.Test ${SOURCE_FILES})
 

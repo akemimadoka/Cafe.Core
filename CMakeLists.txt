@@ -12,6 +12,11 @@ target_include_directories(Cafe.Core INTERFACE
 
 target_compile_features(Cafe.Core INTERFACE cxx_std_20)
 
+# 见 Cafe::Core::Misc::MakeSingleParamTemplate 注释
+if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
+    target_compile_options(Cafe.Core INTERFACE -frelaxed-template-template-args)
+endif()
+
 install(TARGETS Cafe.Core
     EXPORT Core)
 

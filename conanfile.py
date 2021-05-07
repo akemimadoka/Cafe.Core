@@ -34,9 +34,14 @@ class CafeCoreConan(ConanFile):
         return cmake
 
     def package(self):
-        with tools.vcvars(self.settings, filter_known_paths=False) if self.settings.compiler == 'Visual Studio' else tools.no_op():
+        with tools.vcvars(self.settings, filter_known_paths=False) if self.settings.compiler == "Visual Studio" else tools.no_op():
             cmake = self.configure_cmake()
             cmake.install()
+
+    def package_info(self):
+        # 见 Cafe::Core::Misc::MakeSingleParamTemplate 注释
+        if self.settings.compiler == "clang" or self.settings.compiler == "apple-clang":
+            self.cpp_info.cxxflags = [ "-frelaxed-template-template-args" ]
 
     def package_id(self):
         self.info.header_only()
