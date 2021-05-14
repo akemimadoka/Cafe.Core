@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TypeTraits.h"
+#include <cassert>
 
 namespace Cafe::Core::Misc
 {
@@ -51,6 +52,18 @@ namespace Cafe::Core::Misc
 	namespace Detail
 	{
 		template <typename Tuple, typename Callable, std::size_t... I>
+		constexpr void UncheckedRuntimeGetImpl(std::size_t index, Tuple&& tuple,
+		                                       Callable&& callable, std::index_sequence<I...>)
+		{
+			constexpr auto size = std::tuple_size_v<std::remove_cvref_t<Tuple>>;
+			assert(index < size);
+			constexpr auto visitors = std::array{ +[](Tuple&& tuple_, Callable&& callable_) {
+				std::forward<Callable>(callable_)(std::get<I>(std::forward<Tuple>(tuple_)));
+			}... };
+			visitors[index](std::forward<Tuple>(tuple), std::forward<Callable>(callable));
+		}
+
+		template <typename Tuple, typename Callable, std::size_t... I>
 		constexpr bool RuntimeGetImpl(std::size_t index, Tuple&& tuple, Callable&& callable,
 		                              std::index_sequence<I...>)
 		{
@@ -59,10 +72,8 @@ namespace Cafe::Core::Misc
 			{
 				return false;
 			}
-			constexpr auto visitors = std::array{ +[](Tuple&& tuple_, Callable&& callable_) {
-				std::forward<Callable>(callable_)(std::get<I>(std::forward<Tuple>(tuple_)));
-			}... };
-			visitors[index](std::forward<Tuple>(tuple), std::forward<Callable>(callable));
+			UncheckedRuntimeGetImpl(index, std::forward<Tuple>(tuple),
+			                        std::forward<Callable>(callable), std::index_sequence<I...>{});
 			return true;
 		}
 	} // namespace Detail
@@ -71,6 +82,14 @@ namespace Cafe::Core::Misc
 	constexpr bool RuntimeGet(std::size_t index, Tuple&& tuple, Callable&& callable)
 	{
 		return Detail::RuntimeGetImpl(
+		    index, std::forward<Tuple>(tuple), std::forward<Callable>(callable),
+		    std::make_index_sequence<std::tuple_size_v<std::remove_cvref_t<Tuple>>>{});
+	}
+
+	template <typename Tuple, typename Callable>
+	constexpr void UncheckedRuntimeGet(std::size_t index, Tuple&& tuple, Callable&& callable)
+	{
+		Detail::UncheckedRuntimeGetImpl(
 		    index, std::forward<Tuple>(tuple), std::forward<Callable>(callable),
 		    std::make_index_sequence<std::tuple_size_v<std::remove_cvref_t<Tuple>>>{});
 	}
@@ -238,5 +257,32 @@ namespace Cafe::Core::Misc
 	struct SequenceToArray<SeqTemplate<T, Value...>>
 	{
 		static constexpr T Array[]{ Value... };
+	};
+
+	template <typename T, std::size_t N>
+	struct Array
+	{
+		T Content[N];
+
+		static constexpr std::size_t Size = N;
+
+		constexpr Array() = default;
+
+		constexpr Array(const T (&array)[N])
+		{
+			std::copy(std::begin(array), std::end(array), Content);
+		}
+
+		constexpr Array(T (&&array)[N])
+		{
+			std::move(std::begin(array), std::end(array), Content);
+		}
+	};
+
+	template <typename T>
+	struct ArrayBinder
+	{
+		template <std::size_t N>
+		using Result = Array<T, N>;
 	};
 } // namespace Cafe::Core::Misc

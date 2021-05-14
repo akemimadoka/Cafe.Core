@@ -18,6 +18,8 @@ class CafeCoreConan(ConanFile):
     options = {opt[0]: opt[1] for opt in Options}
     default_options = {opt[0]: opt[2] for opt in Options}
 
+    python_requires = "CafeCommon/0.1"
+
     generators = "cmake"
 
     exports_sources = "CMakeLists.txt", "CafeCommon*", "src*", "Test*"
@@ -39,6 +41,7 @@ class CafeCoreConan(ConanFile):
             cmake.install()
 
     def package_info(self):
+        self.python_requires["CafeCommon"].module.addCafeSharedCompileOptions(self)
         # 见 Cafe::Core::Misc::MakeSingleParamTemplate 注释
         if self.settings.compiler == "clang" or self.settings.compiler == "apple-clang":
             self.cpp_info.cxxflags = [ "-frelaxed-template-template-args" ]
