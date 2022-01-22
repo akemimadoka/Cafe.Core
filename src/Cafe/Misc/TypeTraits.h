@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CAFE_CORE_MISC_TYPETRAITS_H
+#define CAFE_CORE_MISC_TYPETRAITS_H
 
 #include <array>
 #include <cstdint>
@@ -248,3 +249,5 @@ namespace Cafe::Core::Misc
 	template <std::intmax_t Value>
 	using SignedMinTypeToHold = typename SignedMinTypeToHoldTrait<Value>::Type;
 } // namespace Cafe::Core::Misc
+
+#endif

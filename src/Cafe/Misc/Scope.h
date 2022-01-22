@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CAFE_CORE_MISC_SCOPE_H
+#define CAFE_CORE_MISC_SCOPE_H
 
 #include "TypeTraits.h"
 #include "UtilityMacros.h"
@@ -86,3 +87,5 @@ namespace Cafe::Core::Misc
 
 #define CAFE_SCOPE_EXIT CAFE_SCOPE_EXIT_ID(CAFE_SCOPE_MAGIC_ID)
 #define CAFE_SCOPE_FAIL CAFE_SCOPE_FAIL_ID(CAFE_SCOPE_MAGIC_ID)
+
+#endif

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef CAFE_CORE_MISC_RATIO_H
+#define CAFE_CORE_MISC_RATIO_H
+
 #include <Cafe/Misc/TypeTraits.h>
 #include <cassert>
 #include <numeric>
@@ -211,3 +213,5 @@ namespace Cafe::Core::Misc
 	}
 
 } // namespace Cafe::Core::Misc
+
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CAFE_CORE_MISC_MATH_H
+#define CAFE_CORE_MISC_MATH_H
 
 #include "TypeTraits.h"
 #include <cassert>
@@ -37,3 +38,5 @@ namespace Cafe::Core::Misc::Math
 		return result;
 	}
 } // namespace Cafe::Core::Misc::Math
+
+#endif

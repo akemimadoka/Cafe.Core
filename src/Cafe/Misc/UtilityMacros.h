@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CAFE_CORE_MISC_UTILITYMACROS_H
+#define CAFE_CORE_MISC_UTILITYMACROS_H
 
 #define CAFE_CONCAT_IMPL(a, b) a##b
 #define CAFE_CONCAT(a, b) CAFE_CONCAT_IMPL(a, b)
@@ -91,3 +92,5 @@
 		CAFE_MAKE_ENUM_BITMASK_TYPE_IMPL_CONTRACT_IN_FUNC(zero == 0);                                  \
 		return a == enumType{};                                                                        \
 	}
+
+#endif

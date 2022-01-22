@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CAFE_CORE_MISC_NUMEBRICINTERVAL_H
+#define CAFE_CORE_MISC_NUMEBRICINTERVAL_H
 
 #include <optional>
 
@@ -119,3 +120,5 @@ namespace Cafe::Core::Misc
 		std::optional<Bound> m_RightBound;
 	};
 } // namespace Cafe::Core::Misc
+
+#endif

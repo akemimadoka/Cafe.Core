@@ -48,7 +48,8 @@ namespace Cafe::Core::Misc
 
 			constexpr void Destroy(T* storage) noexcept
 			{
-				new (static_cast<void*>(storage)) T(Value);
+				std::destroy_at(storage);
+				std::construct_at(storage, Value);
 			}
 
 			constexpr bool Check(T* storage) const noexcept

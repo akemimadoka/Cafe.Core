@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CAFE_CORE_MISC_FUNCTIONS_H
+#define CAFE_CORE_MISC_FUNCTIONS_H
 
 #include "Utility.h"
 #include "UtilityMacros.h"
@@ -504,3 +505,5 @@ namespace Cafe::Core::Misc
 		                                       std::tuple<ArgsType...>>::ResultFunction;
 	};
 } // namespace Cafe::Core::Misc
+
+#endif

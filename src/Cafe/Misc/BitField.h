@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CAFE_CORE_MISC_BITFIELD_H
+#define CAFE_CORE_MISC_BITFIELD_H
 
 #include "TypeTraits.h"
 #include <climits>
@@ -60,3 +61,5 @@ namespace Cafe::Core::Misc
 		}
 	};
 } // namespace Cafe::Core::Misc
+
+#endif

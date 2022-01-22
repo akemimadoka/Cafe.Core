@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CAFE_CORE_MISC_UTILITY_H
+#define CAFE_CORE_MISC_UTILITY_H
 
 #include "TypeTraits.h"
 #include <cassert>
@@ -286,3 +287,5 @@ namespace Cafe::Core::Misc
 		using Result = Array<T, N>;
 	};
 } // namespace Cafe::Core::Misc
+
+#endif

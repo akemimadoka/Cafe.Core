@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CAFE_CORE_MISC_LZY_H
+#define CAFE_CORE_MISC_LZY_H
 
 #include <optional>
 #include <type_traits>
@@ -51,3 +52,5 @@ namespace Cafe::Core::Misc
 	template <typename Producer>
 	explicit Lazy(Producer&&) -> Lazy<std::remove_cvref_t<Producer>>;
 } // namespace Cafe::Core::Misc
+
+#endif

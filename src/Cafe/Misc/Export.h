@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CAFE_CORE_MISC_EXPORT_H
+#define CAFE_CORE_MISC_EXPORT_H
 
 // From https://gcc.gnu.org/wiki/Visibility
 #if defined(_WIN32) || defined(__CYGWIN__)
@@ -29,4 +30,6 @@
 #		define CAFE_PUBLIC
 #		define CAFE_LOCAL
 #	endif
+#endif
+
 #endif

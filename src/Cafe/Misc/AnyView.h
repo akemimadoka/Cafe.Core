@@ -1,3 +1,6 @@
+#ifndef CAFE_CORE_MISC_ANYVIEW_H
+#define CAFE_CORE_MISC_ANYVIEW_H
+
 #include "TypeTraits.h"
 
 namespace Cafe::Core::Misc
@@ -48,3 +51,5 @@ namespace Cafe::Core::Misc
 		void* m_ObjectView;
 	};
 } // namespace Cafe::Core::Misc
+
+#endif
