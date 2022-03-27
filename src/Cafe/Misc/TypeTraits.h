@@ -105,22 +105,6 @@ namespace Cafe::Core::Misc
 		using FalseBase::FalseBase;
 	};
 
-	/// @brief  判断类型在此 trait 实例化之时是否完整
-	/// @remark 即使一个不完整类型在此 trait 实例化之后提供了完整定义，之后仍会判断为
-	/// 		false，若此情况发生，不同翻译单元中结果有可能不同
-	template <typename T, typename = void>
-	struct IsCompleteTrait : std::false_type
-	{
-	};
-
-	template <typename T>
-	struct IsCompleteTrait<T, std::void_t<decltype(sizeof(T))>> : std::true_type
-	{
-	};
-
-	template <typename T>
-	constexpr bool IsComplete = IsCompleteTrait<T>::value;
-
 	template <typename T>
 	struct RemoveCvOverRefTrait : Identity<std::remove_cv_t<T>>
 	{
@@ -139,14 +123,15 @@ namespace Cafe::Core::Misc
 	template <typename T>
 	using RemoveCvOverRef = typename RemoveCvOverRefTrait<T>::Type;
 
-	// 根据 https://clang.llvm.org/cxx_status.html#p0522 在任何语言标准下 clang 在不使用特殊标志开启此功能时都无法应用此 DR，因此需要此模板进行转发
+	// 根据 https://clang.llvm.org/cxx_status.html#p0522 在任何语言标准下 clang
+	// 在不使用特殊标志开启此功能时都无法应用此 DR，因此需要此模板进行转发
 	// 本库会尝试使用并传播该标志，但非直接通过 CMake 或 conan 引用的情况下可能会出现问题
 	template <template <typename...> class Template>
-    struct MakeSingleParamTemplate
+	struct MakeSingleParamTemplate
 	{
-        template <typename T>
-        using Result = Template<T>;
-    };
+		template <typename T>
+		using Result = Template<T>;
+	};
 
 	template <template <typename> class Predicate, typename... T>
 	struct FindFirstTrait;

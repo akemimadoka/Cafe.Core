@@ -80,9 +80,9 @@ namespace Cafe::Core::Misc
 	const auto id = ::Cafe::Core::Misc::Detail::ScopeMaker<::Cafe::Core::Misc::InvokeOnError>* [&]
 
 #ifdef __COUNTER__
-#	define CAFE_SCOPE_MAGIC_ID CAFE_CONCAT(cafeScopeMagicId, __COUNTER__)
+#define CAFE_SCOPE_MAGIC_ID CAFE_CONCAT(cafeScopeMagicId, __COUNTER__)
 #else
-#	define CAFE_SCOPE_MAGIC_ID CAFE_CONCAT(cafeScopeMagicId, __LINE__)
+#define CAFE_SCOPE_MAGIC_ID CAFE_CONCAT(cafeScopeMagicId, __LINE__)
 #endif
 
 #define CAFE_SCOPE_EXIT CAFE_SCOPE_EXIT_ID(CAFE_SCOPE_MAGIC_ID)

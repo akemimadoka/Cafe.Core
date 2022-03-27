@@ -22,9 +22,7 @@ TEST_CASE("Cafe.Core.Misc.Utility", "[Core][Misc][Utility]")
 	SECTION("RuntimeGet")
 	{
 		std::tuple tup{ 1, 2.0, Foo{} };
-		auto visitor = [i = 3](auto&& item) mutable {
-			REQUIRE(i-- == static_cast<int>(item));
-		};
+		auto visitor = [i = 3](auto&& item) mutable { REQUIRE(i-- == static_cast<int>(item)); };
 		for (std::size_t i = std::tuple_size_v<decltype(tup)>; i-- > 0;)
 		{
 			std::cout << i << ": ";

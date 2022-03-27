@@ -22,7 +22,6 @@ TEST_CASE("Cafe.Core.Misc.Functions", "[Core][Misc][Functions]")
 		const auto funcPtr =
 		    FunctionPtrBindingBuilder<TestFuncPtr,
 		                              0>::ResultFunction<OpaquePtrToFunctorPtr<decltype(functor)>>;
-		// 已知 clang 下无法编译通过，应为编译器 bug，apple clang 无此问题
 		const auto result = Test(funcPtr, &functor, 1, 2);
 		REQUIRE(result == 13);
 	}
