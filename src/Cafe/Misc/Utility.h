@@ -274,7 +274,7 @@ namespace Cafe::Core::Misc
 			std::copy(std::begin(array), std::end(array), Content);
 		}
 
-		constexpr Array(T (&&array)[N])
+		constexpr Array(T(&&array)[N])
 		{
 			std::move(std::begin(array), std::end(array), Content);
 		}
@@ -285,6 +285,38 @@ namespace Cafe::Core::Misc
 	{
 		template <std::size_t N>
 		using Result = Array<T, N>;
+	};
+
+	template <typename Seq, typename Mapper>
+	struct MapSequenceTrait;
+
+	template <template <typename T, T...> typename SeqTemplate, typename T, T... Value,
+	          typename Mapper>
+	struct MapSequenceTrait<SeqTemplate<T, Value...>, Mapper>
+	{
+		using Result = SeqTemplate<T, Mapper::Map(Value)...>;
+	};
+
+	template <typename Seq, typename Mapper>
+	using MapSequence = typename MapSequenceTrait<Seq, Mapper>::Result;
+
+	template <typename Tuple, template <typename> class Mapper>
+	struct MapTupleTrait;
+
+	template <template <typename...> class TupleTemplate, typename... T,
+	          template <typename> class Mapper>
+	struct MapTupleTrait<TupleTemplate<T...>, Mapper>
+	{
+		using Result = TupleTemplate<typename Mapper<T>::type...>;
+	};
+
+	template <typename Tuple, template <typename> class Mapper>
+	using MapTuple = typename MapTupleTrait<Tuple, Mapper>::Result;
+
+	template <typename T>
+	struct ResultToTypeWrapper
+	{
+		using type = typename T::Result;
 	};
 } // namespace Cafe::Core::Misc
 
